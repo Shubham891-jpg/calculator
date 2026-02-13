@@ -91,6 +91,28 @@ Once the server is running:
 
 ---
 
+## 🌐 Deploy to Production
+
+### Quick Deploy to Railway (Recommended)
+```bash
+npm install -g @railway/cli
+railway login
+railway init
+railway up
+```
+
+See **DEPLOYMENT_FIXED.md** for complete deployment guide.
+
+### Deployment Platforms Supported
+- ✅ Railway (easiest)
+- ✅ Render (free tier)
+- ✅ Heroku (production)
+- ✅ Netlify (static + external API)
+
+All configuration files are included and ready to use!
+
+---
+
 ## 🆘 Need Help?
 
 ### Quick Fixes
