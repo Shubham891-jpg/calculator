@@ -1,0 +1,26 @@
+2026-02-13 17:42:29,113 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 17:42:36,193 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 17:42:55,524 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 17:43:02,356 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 17:44:13,207 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 17:44:19,453 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:02:03,798 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:02:10,397 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:02:56,557 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:03:02,478 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:05:42,966 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:05:48,839 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:07:31,256 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:07:37,699 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:10:14,799 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:10:20,963 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 18:50:27,916 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 18:50:34,747 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 19:02:55,417 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 19:03:04,073 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 19:08:19,447 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 19:08:26,149 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 19:11:18,191 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 19:11:24,674 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
+2026-02-13 19:22:02,695 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-13 19:22:09,224 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384

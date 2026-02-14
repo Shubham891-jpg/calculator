@@ -1,0 +1,2 @@
+2026-02-14 12:17:59,867 - src.features.embeddings - INFO - Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-14 12:18:08,708 - src.features.embeddings - INFO - Model loaded successfully. Embedding dimension: 384
