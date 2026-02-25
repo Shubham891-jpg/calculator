@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 IT Ticket Severity Calculator - Server Startup Script
+Memory-optimized for deployment
 """
 
 import os
@@ -9,7 +10,7 @@ import uvicorn
 from pathlib import Path
 
 def main():
-    """Start the FastAPI server."""
+    """Start the FastAPI server with memory optimization."""
     
     # Change to the project directory
     project_dir = Path(__file__).parent
@@ -31,14 +32,17 @@ def main():
         # Get port from environment variable (for deployment platforms) or use 8000
         port = int(os.environ.get("PORT", 8000))
         
-        # Start the server
+        # Start the server with memory-optimized settings
         uvicorn.run(
             "api.app:app",
             host="0.0.0.0",  # Bind to all interfaces for browser access
             port=port,
-            reload=False,  # Set to True for development
+            reload=False,
             log_level="info",
-            access_log=True
+            access_log=True,
+            workers=1,  # Single worker to reduce memory usage
+            limit_concurrency=10,  # Limit concurrent requests
+            timeout_keep_alive=30  # Reduce keep-alive timeout
         )
     except KeyboardInterrupt:
         print("\n\n🛑 Server stopped by user")

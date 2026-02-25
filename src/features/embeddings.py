@@ -3,6 +3,7 @@ from sentence_transformers import SentenceTransformer
 from typing import List, Optional, Union
 import pickle
 import os
+import gc
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -23,14 +24,20 @@ class MultilingualEmbeddings:
         self._load_model()
         
     def _load_model(self):
-        """Load the sentence transformer model."""
+        """Load the sentence transformer model with memory optimization."""
         try:
             logger.info(f"Loading embedding model: {self.model_name}")
-            self.model = SentenceTransformer(self.model_name)
+            
+            # Load model with device='cpu' to avoid GPU memory issues
+            self.model = SentenceTransformer(self.model_name, device='cpu')
             
             # Get embedding dimension
-            sample_embedding = self.model.encode(["test"])
+            sample_embedding = self.model.encode(["test"], show_progress_bar=False)
             self.embedding_dim = sample_embedding.shape[1]
+            
+            # Clear memory
+            del sample_embedding
+            gc.collect()
             
             logger.info(f"Model loaded successfully. Embedding dimension: {self.embedding_dim}")
             
@@ -39,14 +46,14 @@ class MultilingualEmbeddings:
             raise
     
     def encode_texts(self, texts: Union[str, List[str]], 
-                    batch_size: int = 32, 
-                    show_progress: bool = True) -> np.ndarray:
+                    batch_size: int = 16,  # Reduced batch size for memory
+                    show_progress: bool = False) -> np.ndarray:  # Disabled progress bar
         """
         Encode texts into embeddings.
         
         Args:
             texts: Single text or list of texts to encode
-            batch_size: Batch size for encoding
+            batch_size: Batch size for encoding (reduced for memory)
             show_progress: Whether to show progress bar
             
         Returns:
