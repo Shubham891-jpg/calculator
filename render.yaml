@@ -1,11 +1,11 @@
 services:
   - type: web
     name: it-ticket-severity-calculator
-    env: docker  # Use Docker instead of native Python
+    env: docker
     region: oregon
-    plan: free  # FREE tier - no credit card required
+    plan: free
     branch: main
-    dockerfilePath: ./Dockerfile  # Use the Dockerfile at root
+    dockerfilePath: ./Dockerfile
     dockerContext: .
     envVars:
       - key: PORT

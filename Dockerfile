@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the entire ticket application first
-COPY ticket/ /app/
+# Copy application files (we're already in ticket/ directory)
+COPY . /app/
 
 # Upgrade pip and install Python dependencies
 RUN pip install --upgrade pip setuptools wheel && \

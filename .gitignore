@@ -37,24 +37,16 @@ venv.bak/
 # VS Code
 .vscode/
 
-# Data files
-*.csv
-*.json
-*.pkl
-*.joblib
-
 # Logs
 *.log
-logs/
+logs/*.log
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Model artifacts (except sample)
-models/*.pkl
-models/*.joblib
-!models/.gitkeep
+# IMPORTANT: Model files MUST be committed for deployment
+# Do NOT ignore models/ directory - it contains trained models needed for production
 
 # Temporary files
 *.tmp
