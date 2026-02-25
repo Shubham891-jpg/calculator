@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Ticket Severity Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .input-section textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .predict-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .severity-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .severity-category {
+            font-size: 1.5em;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .critical { background: #ff4757; color: white; }
+        .high { background: #ff4757; color: white; }
+        .medium { background: #ffa502; color: white; }
+        .low { background: #2ed573; color: white; }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .error-message {
+            background: #ff4757;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .examples h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .example-item {
+            background: white;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .example-item:hover {
+            background: #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎫 IT Ticket Severity Calculator</h1>
+            <p>AI-powered severity assessment for IT support tickets</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <label for="ticketText">Enter IT Ticket Description:</label>
+                <textarea 
+                    id="ticketText" 
+                    placeholder="Describe the IT issue here... (supports English and Hindi)"
+                    maxlength="5000"
+                ></textarea>
+            </div>
+
+            <div class="button-section">
+                <button class="predict-btn" onclick="predictSeverity()">
+                    🔍 Analyze Severity
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Analyzing ticket severity...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="severity-score" id="severityScore">--</div>
+                    <div class="severity-category" id="severityCategory">--</div>
+                </div>
+                
+                <div class="result-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Confidence</div>
+                        <div class="detail-value" id="confidence">--</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Language</div>
+                        <div class="detail-value" id="language">--</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Processing Time</div>
+                        <div class="detail-value" id="processingTime">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="examples">
+                <h3>📝 Example Tickets (Click to try):</h3>
+                <div class="example-item" onclick="setExample('All servers are down, complete system failure, no one can work')">
+                    🔴 High (90-100): All servers are down, complete system failure, no one can work
+                </div>
+                <div class="example-item" onclick="setExample('Database is extremely slow, all applications timing out')">
+                    🟡 Medium (80-89): Database is extremely slow, all applications timing out
+                </div>
+                <div class="example-item" onclick="setExample('Office printer is not working, affecting multiple users')">
+                    🟢 Low (10-79): Office printer is not working, affecting multiple users
+                </div>
+                <div class="example-item" onclick="setExample('User needs password reset for their account')">
+                    🟢 Low (10-79): User needs password reset for their account
+                </div>
+                <div class="example-item" onclick="setExample('सर्वर डाउन है और कोई भी काम नहीं कर सकता')">
+                    🔴 Hindi High: सर्वर डाउन है और कोई भी काम नहीं कर सकता
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Automatically detect the API base URL (works with localhost and ngrok)
+        const API_BASE_URL = window.location.origin;
+
+        function setExample(text) {
+            document.getElementById('ticketText').value = text;
+        }
+
+        async function predictSeverity() {
+            const ticketText = document.getElementById('ticketText').value.trim();
+            
+            if (!ticketText) {
+                showError('Please enter a ticket description');
+                return;
+            }
+
+            const startTime = Date.now();
+            
+            // Show loading state
+            showLoading(true);
+            hideError();
+            hideResult();
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ticket_text: ticketText
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Prediction failed');
+                }
+
+                const result = await response.json();
+                const processingTime = Date.now() - startTime;
+                
+                displayResult(result, processingTime);
+
+            } catch (error) {
+                console.error('Prediction error:', error);
+                showError(`Error: ${error.message}`);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayResult(result, processingTime) {
+            // Update severity score and category
+            document.getElementById('severityScore').textContent = result.severity_score.toFixed(1);
+            
+            const categoryElement = document.getElementById('severityCategory');
+            categoryElement.textContent = result.severity_category;
+            categoryElement.className = `severity-category ${result.severity_category.toLowerCase()}`;
+
+            // Update details
+            document.getElementById('confidence').textContent = `${(result.confidence * 100).toFixed(1)}%`;
+            document.getElementById('language').textContent = result.detected_language || 'Unknown';
+            document.getElementById('processingTime').textContent = `${processingTime}ms`;
+
+            // Show result section
+            showResult();
+        }
+
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const button = document.querySelector('.predict-btn');
+            
+            if (show) {
+                loading.style.display = 'block';
+                button.disabled = true;
+                button.textContent = 'Analyzing...';
+            } else {
+                loading.style.display = 'none';
+                button.disabled = false;
+                button.textContent = '🔍 Analyze Severity';
+            }
+        }
+
+        function showResult() {
+            document.getElementById('resultSection').style.display = 'block';
+        }
+
+        function hideResult() {
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Allow Enter key to submit (Ctrl+Enter for new line)
+        document.getElementById('ticketText').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.ctrlKey) {
+                e.preventDefault();
+                predictSeverity();
+            }
+        });
+
+        // Check API health on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                if (!response.ok) {
+                    showError('API service is not available. Please make sure the server is running.');
+                }
+            } catch (error) {
+                showError('Cannot connect to API service. Please make sure the server is running on localhost:8000');
+            }
+        });
+    </script>
+</body>
+</html>
